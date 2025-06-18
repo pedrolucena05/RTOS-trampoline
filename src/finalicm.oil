@@ -1,0 +1,51 @@
+//////////////////////////////////////////////////////////////////////////////////
+// Universidade de Brasilia (UnB)
+// Faculdade do Gama
+// Curso: Engenharia Automotiva
+// Disciplina : Engenharia de Software Automotivo
+//////////////////////////////////////////////////////////////////////////////////
+
+OIL_VERSION = "2.5" : "test" ;
+
+CPU test {
+    OS config {
+        STATUS = STANDARD;
+        BUILD = TRUE {
+            TRAMPOLINE_BASE_PATH = "../../../";
+            APP_NAME = "icm";
+            APP_SRC = "finalicm.cpp";
+            CPPCOMPILER = "avr-g++";
+            COMPILER = "avr-gcc";
+            LINKER = "avr-gcc";
+            ASSEMBLER = "avr-gcc";
+            COPIER = "avr-objcopy";
+            SYSTEM = PYTHON;
+            LIBRARY = serial ;
+            LIBRARY = mcp_can;
+        };
+        SYSTEM_CALL = TRUE;
+    };
+
+    APPMODE stdAppmode {};
+
+    ALARM periodicAlarm {
+        COUNTER= SystemCounter;
+        ACTION = ACTIVATETASK {
+            TASK = ReceiveCanFrame;
+        };
+
+        AUTOSTART = TRUE {
+            ALARMTIME = 500; //ativado a cada 512 ms
+            CYCLETIME = 500; //ativado a cada 512 ms
+            APPMODE = stdAppmode;
+        };
+    };
+
+    TASK ReceiveCanFrame {
+        PRIORITY = 20;
+        AUTOSTART = FALSE;
+        ACTIVATION = 1;
+        SCHEDULE = FULL;
+        STACKSIZE = 256;
+    };
+};

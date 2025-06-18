@@ -1,0 +1,68 @@
+
+OIL_VERSION = "2.5" : "test" ;
+
+CPU test {
+    OS config {
+        STATUS = STANDARD;
+        BUILD = TRUE {
+            TRAMPOLINE_BASE_PATH = "../../../";
+            APP_NAME = "ecm";
+            APP_SRC = "finalecm.cpp";
+            CPPCOMPILER = "avr-g++";
+            COMPILER = "avr-gcc";
+            LINKER = "avr-gcc";
+            ASSEMBLER = "avr-gcc";
+            COPIER = "avr-objcopy";
+            SYSTEM = PYTHON;
+            LIBRARY = serial ;
+            LIBRARY = mcp_can;
+        };
+        SYSTEM_CALL = TRUE;
+    };
+
+    APPMODE stdAppmode {};
+
+    ALARM periodicAlarm1 {
+        COUNTER= SystemCounter;
+        ACTION = ACTIVATETASK {
+            TASK = SendErFrame;
+        };
+        AUTOSTART = TRUE {
+            ALARMTIME = 50; //ativado a cada 1024 ms
+            CYCLETIME = 50; //ativado a cada 1024 ms
+            APPMODE = stdAppmode;
+        };
+    };
+	
+    ALARM periodicAlarm2 {
+        COUNTER= SystemCounter;
+        ACTION = ACTIVATETASK {
+            TASK = ReceiveFrame;
+        };
+        AUTOSTART = TRUE {
+            ALARMTIME = 200; //ativado a cada 1024 ms
+            CYCLETIME = 500; //ativado a cada 1024 ms
+            APPMODE = stdAppmode;
+        };
+    };
+	
+	RESOURCE VariaveisCompartilhadas { 
+		RESOURCEPROPERTY = STANDARD;
+	};
+
+	TASK SendErFrame {
+        PRIORITY = 10;
+        AUTOSTART = FALSE;
+        ACTIVATION = 1;
+        SCHEDULE = FULL;
+        STACKSIZE = 256;
+    };
+	
+	TASK ReceiveFrame {
+		PRIORITY = 20;
+        AUTOSTART = FALSE;
+        ACTIVATION = 1;
+        SCHEDULE = FULL;
+        STACKSIZE = 256;
+    };
+};
