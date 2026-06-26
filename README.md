@@ -1,4 +1,4 @@
-# Exemplo de uma aplicação RTOS para o Arduino usando a biblioteca Trampoline
+# Aplicação RTOS para o Arduino usando a biblioteca Trampoline
 
 Aplicação desenvolvida para consolidar conhecimentos de RTOS na Residência Tecnológica da UFPE. O sistema envolve a comunicação entre 3 placas via rede CAN, utilizando uma placa artesanal com 4 Arduinos Nano, todos com o microprocessador Atmega328p (8 bits e 2 KB de RAM).
 
