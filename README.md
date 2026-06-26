@@ -29,12 +29,9 @@ O Trampoline RTOS ocupava aproximadamente metade dessa memória, deixando cerca 
 Esse cenário exigiu decisões cuidadosas relacionadas a:
 
 * tamanho e tipo das variáveis;
-* redução do uso de estruturas grandes em memória;
 * uso de variáveis inteiras de 8 e 16 bits;
-* dimensionamento da stack das tarefas;
-* organização das tarefas periódicas;
-* controle de buffers de recepção CAN;
-* prevenção de atrasos que poderiam comprometer o ciclo de execução.
+* dimensionamento da stack das tasks;
+* Uso do PROGMEM para guardar vetores diretamente na memoria flash.
 
 ---
 
