@@ -2,7 +2,7 @@
 
 Projeto desenvolvido durante a Residência Tecnológica em Software Automotivo da UFPE para consolidar conhecimentos de sistemas embarcados, sistemas operacionais de tempo real (RTOS), comunicação automotiva e desenvolvimento sob restrições de hardware.
 
-A aplicação simula a troca de informações entre três ECUs de um veículo por meio de uma rede CAN. Cada ECU foi executada em uma placa Arduino Nano com microcontrolador **ATmega328P**, uma arquitetura de 8 bits com apenas **2 KB de memória RAM**, utilizando o RTOS Trampoline.
+A aplicação simula a troca de informações entre três ECUs de um veículo por meio de uma rede CAN. Cada ECU foi executada em uma placa Arduino Nano com microcontrolador **ATmega328P**, uma arquitetura de 8 bits com apenas **2 KB de memória RAM**, utilizando o RTOS Trampoline que eram gravados remotamente nas placas Arduino que ficam no laboratório do CIn UFPE.
 
 ---
 
@@ -93,7 +93,7 @@ A aplicação foi organizada em ciclos periódicos de aproximadamente **500 ms**
 300 ms  → ECM calcula a velocidade com base na marcha e na rotação
           e transmite a velocidade pela rede CAN
 
-Final do ciclo → ICM lê os buffers CAN, desempacota os dados
+500 ms → ICM lê os buffers CAN, desempacota os dados
                  e exibe marcha, RPM e velocidade pela porta serial
 ```
 
@@ -143,7 +143,7 @@ Empacotamento de dados
 
 ## Execução do projeto
 
-Após a configuração do ambiente e a implementação do algoritmo, foi gerado um arquivo `.hex` específico para cada Arduino.
+Após a configuração do ambiente e a implementação do algoritmo, foi gerado um arquivo `.hex` específico para cada ECU (TCM, ECM, ICM).
 
 Os arquivos compilados eram enviados remotamente para o desktop onde cada placa correspondente estava conectada, permitindo a gravação e execução distribuída das ECUs simuladas.
 
@@ -151,4 +151,4 @@ Os arquivos compilados eram enviados remotamente para o desktop onde cada placa 
 
 ## Projeto em execução
 
-> [🔗 Link para o vídeo de execução](https://drive.google.com/file/d/1UwUIkrjhLCyTlZAEDUMWRYV9XebpAj96/view?usp=sharing)
+> [🔗 Link para o vídeo de execução](https://drive.google.com/file/d/1vNMXSnivWpOF6JQkKgDDDEVOV0rcgod9/view?usp=sharing)
