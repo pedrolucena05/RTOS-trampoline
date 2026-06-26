@@ -2,7 +2,7 @@
 
 Projeto desenvolvido durante a Residência Tecnológica em Software Automotivo da UFPE para consolidar conhecimentos de sistemas embarcados, sistemas operacionais de tempo real (RTOS), comunicação automotiva e desenvolvimento sob restrições de hardware.
 
-A aplicação simula a troca de informações entre três ECUs de um veículo por meio de uma rede CAN. Cada ECU foi executada em uma placa Arduino Nano com microcontrolador **ATmega328P**, uma arquitetura de 8 bits com apenas **2 KB de memória RAM**.
+A aplicação simula a troca de informações entre três ECUs de um veículo por meio de uma rede CAN. Cada ECU foi executada em uma placa Arduino Nano com microcontrolador **ATmega328P**, uma arquitetura de 8 bits com apenas **2 KB de memória RAM**, utilizando o RTOS Trampoline.
 
 ---
 
@@ -35,39 +35,12 @@ Esse cenário exigiu decisões cuidadosas relacionadas a:
 
 ---
 
-## RTOS e sincronização das tarefas
-
-O sistema foi desenvolvido utilizando o **Trampoline RTOS**, com tarefas periódicas e sincronizadas por alarmes.
-
-A configuração dos `alarm times` e `cycle times` foi uma parte importante do projeto, pois as três placas precisavam executar suas tarefas em uma ordem previsível. A transmissão, recepção, cálculo e exibição dos dados deveriam ocorrer dentro de uma janela de tempo definida.
-
----
-
 ## Comunicação por rede CAN
 
-A comunicação entre as ECUs foi realizada por meio de **frames CAN**.
+A comunicação entre as ECUs foi realizada por meio de **CAN frames**.
 
-Em uma rede CAN, quando uma ECU transmite uma mensagem, todas as placas conectadas ao barramento conseguem detectar a transmissão. Cada controlador CAN recebe o frame e pode armazená-lo em seu buffer de recepção.
-
-Uma tarefa de recebimento lê esse buffer, analisa o identificador da mensagem e decide se aquele dado deve ser processado pela ECU.
-
-O fluxo de recepção utilizado foi:
-
-```text
-ECU transmite um frame CAN
-        ↓
-Todas as ECUs conectadas ao barramento detectam a transmissão
-        ↓
-O controlador CAN armazena o frame no buffer de recepção
-        ↓
-A tarefa de recebimento lê o frame
-        ↓
-O identificador CAN é analisado
-        ↓
-A ECU processa apenas os dados relevantes para sua função
-```
-
-Por exemplo, a ICM recebe mensagens relacionadas à marcha, rotação e velocidade, reconstruindo os valores recebidos para exibição no painel serial.
+- Quando um CAN frame é enviado todas as placas recebem e armazenam o frame num buffer (podendo ter mais frames guardados em fila);
+- Cicle time e alarm time das tasks foram utilizadas para orquestrar o envio e recebimento dos CAN frames, sincronizando as placas corretamente;
 
 ---
 
@@ -87,29 +60,8 @@ A estrutura de transmissão utilizou a separação entre:
 
 * **MSB — Most Significant Byte:** byte mais significativo;
 * **LSB — Least Significant Byte:** byte menos significativo.
-
-No envio, valores de 16 bits eram separados em dois bytes para compor o payload do CAN frame:
-
-```text
-Valor original de 16 bits
-        ↓
-MSB: byte mais significativo
-LSB: byte menos significativo
-        ↓
-Payload do CAN frame
-```
-
-Na recepção, a ECU realizava o processo inverso, combinando MSB e LSB para reconstruir o valor original.
-
-```text
-Payload recebido
-        ↓
-Leitura do MSB e LSB
-        ↓
-Reconstrução do valor inteiro de 16 bits
-        ↓
-Conversão para o valor físico conforme a resolução definida
-```
+* No envio, valores de 16 bits eram separados em dois bytes para compor o payload do CAN frame.
+* Na recepção, a ECU realizava o processo inverso, combinando MSB e LSB para reconstruir o valor original.
 
 Esse processo permitiu uma transmissão compacta e adequada às limitações de memória e processamento do microcontrolador.
 
@@ -120,9 +72,10 @@ Esse processo permitiu uma transmissão compacta e adequada às limitações de 
 | Informação            | ECU transmissora | Momento do ciclo | ID decimal | ID hexadecimal | Resolução  |
 | --------------------- | ---------------- | ---------------- | ---------- | -------------- | ---------- |
 | Marcha atual          | TCM              | 100 ms           | 418383107  | `0x18F00503`   | 0 a 255    |
-| Recepção da marcha    | ECM              | 150 ms           | —          | —              | —          |
+| Recepção da marcha    | ECM              | 150 ms           | -          | -              | -          |
 | Rotação do motor      | ECM              | 200 ms           | 217056256  | `0x0CF00400`   | 0 a 65.535 |
 | Velocidade do veículo | ECM              | 300 ms           | 419361024  | `0x18FEF100`   | 0 a 65.535 |
+| Recepção do ICM       | ICM              | 500 ms           | -          | -              | -          |
 
 ---
 
