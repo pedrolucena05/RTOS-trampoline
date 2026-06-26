@@ -143,7 +143,7 @@ Empacotamento de dados
 
 ## Execução do projeto
 
-Após a configuração do ambiente e a implementação do algoritmo, foi gerado um arquivo `.hex` específico para cada ECU (TCM, ECM, ICM).
+Após a configuração do ambiente e a implementação do algoritmo, os arquivs .oil e .cpp são compilados para gerar o `.hex` específico para cada ECU (TCM, ECM, ICM).
 
 Os arquivos compilados eram enviados remotamente para o desktop onde cada placa correspondente estava conectada, permitindo a gravação e execução distribuída das ECUs simuladas.
 
