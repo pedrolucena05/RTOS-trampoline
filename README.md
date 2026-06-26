@@ -2,7 +2,7 @@
 
 Projeto desenvolvido durante a Residência Tecnológica em Software Automotivo da UFPE para consolidar conhecimentos de sistemas embarcados, sistemas operacionais de tempo real (RTOS), comunicação automotiva e desenvolvimento sob restrições de hardware.
 
-A aplicação simula a troca de informações entre três ECUs de um veículo por meio de uma rede CAN. Cada ECU foi executada em uma placa Arduino Nano com microcontrolador **ATmega328P**, uma arquitetura de 8 bits com apenas **2 KB de memória RAM**, utilizando o RTOS Trampoline que eram gravados remotamente nas placas Arduino que ficam no laboratório do CIn UFPE.
+A aplicação simula a troca de informações entre três ECUs de um veículo por meio de uma rede CAN. Cada ECU foi executada em uma placa Arduino Nano com microcontrolador **ATmega328P**, uma arquitetura de 8 bits com apenas **2 KB de memória RAM**. Foi utilizado o RTOS Trampoline e os arquivos .hex eram gravados remotamente nas placas Arduino do laboratório do CIn UFPE.
 
 ---
 
