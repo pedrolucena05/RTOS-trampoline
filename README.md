@@ -41,14 +41,6 @@ O sistema foi desenvolvido utilizando o **Trampoline RTOS**, com tarefas periód
 
 A configuração dos `alarm times` e `cycle times` foi uma parte importante do projeto, pois as três placas precisavam executar suas tarefas em uma ordem previsível. A transmissão, recepção, cálculo e exibição dos dados deveriam ocorrer dentro de uma janela de tempo definida.
 
-Foram utilizados mecanismos de temporização para:
-
-* manter a periodicidade das tarefas;
-* permitir que o escalonador execute outras tarefas;
-* reduzir o risco de atrasos entre transmissão e recepção;
-* evitar que cálculos mais longos prejudiquem o funcionamento das tarefas seguintes;
-* identificar situações em que uma mensagem esperada não chegasse dentro do intervalo previsto.
-
 ---
 
 ## Comunicação por rede CAN
