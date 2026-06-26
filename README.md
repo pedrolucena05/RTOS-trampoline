@@ -88,9 +88,9 @@ A aplicação foi organizada em ciclos periódicos de aproximadamente **500 ms**
 
 150 ms  → ECM recebe e processa a marcha
 
-200 ms  → ECM calcula e transmite a rotação do motor
+200 ms  → ECM transmite a rotação do motor em RPM
 
-300 ms  → ECM calcula a velocidade com base na marcha e na rotação
+300 ms  → ECM calcula a velocidade com base na marcha e na rotação do motor
           e transmite a velocidade pela rede CAN
 
 500 ms → ICM lê os buffers CAN, desempacota os dados
